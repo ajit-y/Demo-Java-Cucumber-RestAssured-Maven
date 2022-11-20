@@ -9,15 +9,25 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ReqResUserRequests {
+
+    /**
+     * Variable Declarations
+     */
     private final ScenarioContext context;
     private final Scenario scenario;
 
-    //Dependency Injection Using cucumber-picocontainer
+    /**
+     * Dependency Injection Using cucumber-picocontainer
+     */
     public ReqResUserRequests(ScenarioContext context) {
         this.context = context;
         this.scenario = context.scenario;
         context._REQ_SPEC = given().baseUri(context.BASE_URL);
     }
+
+    /**
+     * Step Definitions
+     */
 
     @When("reqres.in website receives list users request for a page")
     public void reqres_in_website_receives_list_users_request_for_a_page() {
