@@ -9,3 +9,4 @@ Project to demo API test automation using following tools & technologies.
 - JUnit5
 - cucumber-picocontainer for dependency injection
 - Hamcrest Matchers
+- Reporting using Cluecumber report maven plugin
