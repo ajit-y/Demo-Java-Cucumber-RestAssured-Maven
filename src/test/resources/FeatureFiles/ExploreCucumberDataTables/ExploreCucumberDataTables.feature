@@ -1,4 +1,3 @@
-@test
 Feature: Explore Cucumber Data Tables shapes
 
   Scenario: Data Table in shape of List<String>

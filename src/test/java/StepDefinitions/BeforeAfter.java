@@ -4,8 +4,11 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
-public class BeforeAfter {
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
 
+public class BeforeAfter {
     private Scenario scenario;
     private final ScenarioContext context;
 
@@ -17,6 +20,9 @@ public class BeforeAfter {
     public void beforeHook(Scenario scenario) {
         context.scenario = scenario;
         this.scenario = context.scenario;
+        context.baos = new ByteArrayOutputStream();
+        context.printStream = new PrintStream(context.baos);
+        context.validatableResponseList = new ArrayList<>();
     }
 
     @After
