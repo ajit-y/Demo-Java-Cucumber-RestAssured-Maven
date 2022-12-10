@@ -1,33 +1,99 @@
 package StepDefinitions;
 
 import io.cucumber.java.Scenario;
+import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import static io.restassured.RestAssured.given;
 
 public class ScenarioContext {
     /**
      * Variables for working with Cucumber Framework
      */
     public Scenario scenario;
+
     /**
      * Variables for working with Rest Assured Framework
      */
-    public RequestSpecification requestSpecification;
+    private RequestSpecification requestSpecification;
     public Response response;
-    public ValidatableResponse validatableResponse;
-    public List<ValidatableResponse> validatableResponseList;
-
+    private ValidatableResponse validatableResponse;
+    private List<ValidatableResponse> validatableResponseList;
     public PrintStream printStream;
     public ByteArrayOutputStream baos;
 
     /**
      * Variables for working with tests for 'reqres.in' website
      */
-    public final String BASE_URL = "https://reqres.in/";
+    public final String REQRES_BASE_URL = "https://reqres.in/";
 
+    public RequestSpecification getRequestSpecification() {
+        return requestSpecification;
+    }
+
+    public void setRequestSpecification(String baseUrl) {
+        this.requestSpecification = given()
+                .baseUri(baseUrl);
+    }
+
+    public void setValidatableResponse(Response response) {
+        this.validatableResponse = response.then();
+    }
+
+    public ValidatableResponse getValidatableResponse() {
+        return validatableResponse;
+    }
+
+    public void initializeValidatableResponseList() {
+        this.validatableResponseList = new ArrayList<>();
+    }
+
+    public void validatableResponseListBuilder() {
+        validatableResponseList.add(getValidatableResponse());
+    }
+
+    public List<ValidatableResponse> getValidatableResponseList() {
+        return validatableResponseList;
+    }
+
+    public Response sendGetRequest(String queryParamName, Integer queryParamValue, String endPoint) {
+        return getRequestSpecification()
+                .filter(new RequestLoggingFilter(printStream))
+                .queryParam(queryParamName, queryParamValue)
+                .get(endPoint);
+    }
+
+    public Response sendGetRequest(String queryParamName, String queryParamValue, String endPoint) {
+        return getRequestSpecification()
+                .filter(new RequestLoggingFilter(printStream))
+                .queryParam(queryParamName, queryParamValue)
+                .get(endPoint);
+    }
+
+    public Response sendPostRequest(Object body, String endPoint) {
+        return getRequestSpecification()
+                .headers("Cache-Control","no-cache","Content-Type", "application/json")
+                .body(body)
+                .filter(new RequestLoggingFilter(printStream))
+                .post(endPoint);
+    }
+
+    public void requestInformationLogging() {
+        printStream.flush();
+        scenario.log(baos.toString());
+        baos.reset();
+    }
+
+    public void responseInformationLogging() {
+        //Log Response details to Cucumber report
+        scenario.log("Response status code: " + response.statusCode());
+        scenario.log("Response body: " + response.body().prettyPrint());
+    }
 }

@@ -6,7 +6,6 @@ import io.cucumber.java.Scenario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 public class BeforeAfter {
     private Scenario scenario;
@@ -22,7 +21,6 @@ public class BeforeAfter {
         this.scenario = context.scenario;
         context.baos = new ByteArrayOutputStream();
         context.printStream = new PrintStream(context.baos);
-        context.validatableResponseList = new ArrayList<>();
     }
 
     @After
