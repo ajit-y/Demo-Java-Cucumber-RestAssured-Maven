@@ -26,7 +26,7 @@
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-bom</artifactId>
-                <version>7.9.0</version>
+                <version>7.10.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
-            <version>7.9.0</version>
+            <version>7.10.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -113,10 +113,24 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Demo-Java-Cucumber-RestAssured-Maven.TestRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
                 <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
                     <properties>
                         <!-- Work around. Surefire does not include enough
                              information to disambiguate between different

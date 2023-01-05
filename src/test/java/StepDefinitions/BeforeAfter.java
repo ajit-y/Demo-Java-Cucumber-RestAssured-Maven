@@ -1,8 +1,6 @@
 package StepDefinitions;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
+import io.cucumber.java.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -14,7 +12,15 @@ public class BeforeAfter {
     public BeforeAfter(ScenarioContext context ) {
         this.context = context;
     }
+    @BeforeAll
+    public static void before_all() {
+        System.out.println("Before All: This step executes only once before any scenario is run");
+    }
 
+    @AfterAll
+    public static void after_all(){
+        System.out.println("After All: This step executes only once after all scenarios are run");
+    }
     @Before
     public void beforeHook(Scenario scenario) {
         context.scenario = scenario;
