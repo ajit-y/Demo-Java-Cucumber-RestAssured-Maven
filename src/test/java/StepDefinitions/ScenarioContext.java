@@ -1,5 +1,6 @@
 package StepDefinitions;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import io.cucumber.java.Scenario;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
@@ -11,6 +12,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static io.restassured.RestAssured.given;
 
 public class ScenarioContext {
@@ -29,10 +31,7 @@ public class ScenarioContext {
     public PrintStream printStream;
     public ByteArrayOutputStream baos;
 
-    /**
-     * Variables for working with tests for 'reqres.in' website
-     */
-    public final String REQRES_BASE_URL = "https://reqres.in/";
+    public WireMockServer wireMockServer;
 
     public RequestSpecification getRequestSpecification() {
         return requestSpecification;
@@ -79,12 +78,15 @@ public class ScenarioContext {
 
     public Response sendPostRequest(Object body, String endPoint) {
         return getRequestSpecification()
-                .headers("Cache-Control","no-cache","Content-Type", "application/json")
+                .headers("Cache-Control", "no-cache", "Content-Type", "application/json")
                 .body(body)
                 .filter(new RequestLoggingFilter(printStream))
                 .post(endPoint);
     }
 
+    /**
+     * Methods for request and response logging
+     */
     public void requestInformationLogging() {
         printStream.flush();
         scenario.log(baos.toString());
@@ -96,4 +98,14 @@ public class ScenarioContext {
         scenario.log("Response status code: " + response.statusCode());
         scenario.log("Response body: " + response.body().prettyPrint());
     }
+
+    /**
+     * Variables for working with tests for 'reqres.in' website
+     */
+    public final String REQRES_BASE_URL = "https://reqres.in/";
+
+    /**
+     * Variables for working with tests with Wiremock
+     */
+    public final String WIREMOCK_BASE_URL = "http://localhost:9095";
 }
