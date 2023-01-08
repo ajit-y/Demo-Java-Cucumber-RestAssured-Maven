@@ -42,7 +42,7 @@ public class BeforeAfter {
         this.scenario = context.scenario;
         context.baos = new ByteArrayOutputStream();
         context.printStream = new PrintStream(context.baos);
-        context.wireMockServer = new WireMockServer(options().port(9095));
+        context.wireMockServer = new WireMockServer(options().dynamicPort());
         context.wireMockServer.start();
     }
 

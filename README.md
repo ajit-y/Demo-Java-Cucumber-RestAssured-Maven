@@ -7,12 +7,13 @@ Project to demo API test automation using following tools & technologies.
 - Maven
 - Cucumber Framework
 - RestAssured Libraries
-- JUnit5
-- Run tests in parallel using Junit5
-- cucumber-picocontainer for dependency injection
-- Hamcrest Matchers
-- Reporting using Cluecumber report maven plugin
-- Docker for running tests in a container (using Dockerfile)
+- **JUnit5**
+- **Run tests in parallel** using Junit5
+- **cucumber-picocontainer** for dependency injection
+- **Hamcrest Matchers**
+- Reporting using **Cluecumber** report maven plugin
+- **Docker** for running tests in a container (using Dockerfile)
+- API Response stubbing using **Wiremock**
 
 
 ## To run tests in docker

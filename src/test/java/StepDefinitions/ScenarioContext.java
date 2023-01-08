@@ -69,6 +69,18 @@ public class ScenarioContext {
                 .get(endPoint);
     }
 
+    public Response sendGetRequest(String endPoint) {
+        return getRequestSpecification()
+                .filter(new RequestLoggingFilter(printStream))
+                .get(endPoint);
+    }
+
+    public Response sendDeleteRequest(String endPoint) {
+        return getRequestSpecification()
+                .filter(new RequestLoggingFilter(printStream))
+                .delete(endPoint);
+    }
+
     public Response sendGetRequest(String queryParamName, String queryParamValue, String endPoint) {
         return getRequestSpecification()
                 .filter(new RequestLoggingFilter(printStream))
@@ -82,6 +94,14 @@ public class ScenarioContext {
                 .body(body)
                 .filter(new RequestLoggingFilter(printStream))
                 .post(endPoint);
+    }
+
+    public Response sendPutRequest(Object body, String endPoint) {
+        return getRequestSpecification()
+                .headers("Cache-Control", "no-cache", "Content-Type", "application/json")
+                .body(body)
+                .filter(new RequestLoggingFilter(printStream))
+                .put(endPoint);
     }
 
     /**
@@ -107,5 +127,5 @@ public class ScenarioContext {
     /**
      * Variables for working with tests with Wiremock
      */
-    public final String WIREMOCK_BASE_URL = "http://localhost:9095";
+    public final String WIREMOCK_BASE_URL = "http://localhost:";
 }
